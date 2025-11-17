@@ -8,25 +8,25 @@ const Products = ({ addToCart }) => {
     const [count, setcount] = useState(0);
     const [disableButton, setdisableButton] = useState(false);
 
-    async function fetchProducts() {
-        try {
-            setloading(true);
-            const response = await fetch(`https://dummyjson.com/products?limit=20&skip=${count === 0 ? 0 : count * 20}`);
-            const result = await response.json();
-
-            if (result && result.products && result.products.length) {
-                setproducts((prevData) => [...prevData, ...result.products]);
+    useEffect(() => {
+        async function fetchProducts() {
+            try {
+                setloading(true);
+                const response = await fetch(`https://dummyjson.com/products?limit=20&skip=${count === 0 ? 0 : count * 20}`);
+                const result = await response.json();
+    
+                if (result && result.products && result.products.length) {
+                    setproducts((prevData) => [...prevData, ...result.products]);
+                    setloading(false);
+                }
+            } catch (e) {
+                console.log(e);
                 setloading(false);
             }
-        } catch (e) {
-            console.log(e);
-            setloading(false);
         }
-    }
 
-    useEffect(() => {
         fetchProducts();
-    }, []);
+    }, [count]);
 
     useEffect(() => {
         if (products && products.length === 100) {
