@@ -26,7 +26,7 @@ const Products = ({ addToCart }) => {
 
     useEffect(() => {
         fetchProducts();
-    }, [count]);
+    }, []);
 
     useEffect(() => {
         if (products && products.length === 100) {
